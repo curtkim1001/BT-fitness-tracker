@@ -1,0 +1,22 @@
+{
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "server",
+    "client",
+    "e2e"
+  ],
+  "scripts": {
+    "build:client": "yarn workspace breakable-toy-fitness-tracker-client build",
+    "dev": "yarn workspace breakable-toy-fitness-tracker-server dev",
+    "dev:debug": "yarn workspace breakable-toy-fitness-tracker-server dev:debug",
+    "heroku-postbuild": "yarn workspace breakable-toy-fitness-tracker-client build",
+    "start": "yarn workspace breakable-toy-fitness-tracker-server start",
+    "dev:cypress": "yarn workspace breakable-toy-fitness-tracker-server dev:e2e",
+    "e2e:open": "yarn workspace breakable-toy-fitness-tracker-e2e e2e:open",
+    "e2e:run": "yarn workspace breakable-toy-fitness-tracker-e2e e2e:run"
+  },
+  "engines": {
+    "node": "^16.18"
+  }
+}
