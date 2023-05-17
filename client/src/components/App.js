@@ -4,9 +4,13 @@ import { hot } from "react-hot-loader/root";
 
 import getCurrentUser from "../services/getCurrentUser";
 import "../assets/scss/main.scss";
+import AuthenticatedRoute from "./authentication/AuthenticatedRoute"
 import RegistrationForm from "./registration/RegistrationForm";
 import SignInForm from "./authentication/SignInForm";
 import TopBar from "./layout/TopBar";
+import UserProfile from "./layout/UserProfile";
+import Home from "./layout/Home";
+import RoutineList from "./layout/RoutineList"
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -27,11 +31,12 @@ const App = (props) => {
     <Router>
       <TopBar user={currentUser} />
       <Switch>
-        <Route exact path="/">
-          <h2>Hello from react</h2>
-        </Route>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/home" component={Home} />
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
+        <AuthenticatedRoute exact path="/profile" component={UserProfile} user={currentUser} />
+        <AuthenticatedRoute exact path="/workouts" component={RoutineList} user={currentUser} />
       </Switch>
     </Router>
   );

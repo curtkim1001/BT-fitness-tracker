@@ -1,0 +1,112 @@
+.fullName {
+    font-weight: 500;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 30px;
+}
+
+.profile-box {
+    text-align: center;
+    margin-top: 3%;
+    margin-left: auto;
+    margin-right: auto;
+    h2 {
+      font-weight: bolder;
+    }
+    p {
+      font-weight: 500;
+    }
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-pic {
+    margin-left: 10%;
+    margin-right: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 300px;
+}
+
+.profile-image {
+    max-width: 100%;
+    max-height: 100%;
+}
+  
+.picture-form {
+    margin-left: 10%;
+    margin-right: 10%;
+    p {
+    font-size: 15px;
+    }
+}
+  
+
+.rounded-corner {
+    border-radius: 8px;
+}
+
+.image-error {
+    text-align: center;
+}
+
+.homepage {
+    text-align: center;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
+
+.home-page-footer-text {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-style: italic; 
+}
+
+.home-image {
+    width: 80%;
+    outline-style:solid;
+    outline-color: white; 
+    outline-width: 5px;
+}
+
+.home-welcome-box {
+    margin-left: 15%;
+    margin-right: 15%;
+    border: solid 3px $black;
+    font-weight: bold;
+    font-size: large;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 6px 10px rgba(0, 0, 0, 0.1);
+}
+
+.border {
+    border: solid 3px;
+    margin-left: 5em;
+    margin-right: 5em;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 6px 10px rgba(0, 0, 0, 0.1);
+  
+    h4 {
+      margin-left: 40px;
+      font-weight: bold;
+    }
+  
+    p {
+      margin-left: 40px;
+    }
+  }
+
+.routine-container {
+    h1 {
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
+}
+
+.routine-form-text {
+    h1 {
+        text-align: center;
+    }
+}
