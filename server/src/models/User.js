@@ -26,10 +26,14 @@ class User extends uniqueFunc(Model) {
   static get jsonSchema() {
     return {
       type: "object",
-      required: ["email"],
+      required: ["email", "firstName", "lastName"],
       properties: {
         email: { type: "string", pattern: "^\\S+@\\S+\\.\\S+$" },
         cryptedPassword: { type: "string" },
+        firstName: { type: "string" },
+        lastName: { type: "string" },
+        admin: { type: ["boolean", "string"] },
+        imageUrl: { type: "string" }
       },
     };
   }
@@ -42,6 +46,29 @@ class User extends uniqueFunc(Model) {
     }
 
     return serializedJson;
+  }
+
+  static get relationMappings() {
+    const { Routine, Exercise } = require("./index.js")
+    
+    return {
+      routines: {
+        relation: Model.HasManyRelation,
+        modelClass: Routine,
+        join: {
+          from: "users.id", 
+          to: "routines.userId"
+        }
+      },
+      exercises: {
+        relation: Model.HasManyRelation,
+        modelClass: Exercise,
+        join: {
+          from: "users.id",
+          to: "exercises.userId"
+        }
+      }
+    }
   }
 }
 

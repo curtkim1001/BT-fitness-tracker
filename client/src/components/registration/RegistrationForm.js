@@ -7,6 +7,8 @@ import translateServerErrors from "../../services/translateServerErrors";
 const RegistrationForm = () => {
   const [userPayload, setUserPayload] = useState({
     email: "",
+    firstName: "",
+    lastName: "",
     password: "",
     passwordConfirmation: "",
   });
@@ -18,7 +20,7 @@ const RegistrationForm = () => {
 
   const validateInput = (payload) => {
     setErrors({});
-    const { email, password, passwordConfirmation } = payload;
+    const { email, firstName, lastName, password, passwordConfirmation } = payload;
     const emailRegexp = config.validation.email.regexp.emailRegex;
     let newErrors = {};
 
@@ -26,6 +28,20 @@ const RegistrationForm = () => {
       newErrors = {
         ...newErrors,
         email: "is invalid",
+      };
+    }
+
+    if (firstName.trim() == "") {
+      newErrors = {
+        ...newErrors,
+        firstName: "is required",
+      };
+    }
+
+    if (lastName.trim() == "") {
+      newErrors = {
+        ...newErrors,
+        lastName: "is required",
       };
     }
 
@@ -80,6 +96,7 @@ const RegistrationForm = () => {
             throw error;
           }
           const userData = await response.json();
+          alert("Registration successful!")
           setShouldRedirect(true);
         }
       } catch (err) {
@@ -96,7 +113,7 @@ const RegistrationForm = () => {
   };
 
   if (shouldRedirect) {
-    location.href = "/";
+    location.href = "/user-sessions/new";
   }
 
   return (
@@ -109,6 +126,20 @@ const RegistrationForm = () => {
             Email
             <input type="text" name="email" value={userPayload.email} onChange={onInputChange} />
             <FormError error={errors.email} />
+          </label>
+        </div>
+        <div>
+          <label>
+            First Name
+            <input type="text" name="firstName" value={userPayload.firstName} onChange={onInputChange} />
+            <FormError error={errors.firstName} />
+          </label>
+        </div>
+        <div>
+          <label>
+            Last Name
+            <input type="text" name="lastName" value={userPayload.lastName} onChange={onInputChange} />
+            <FormError error={errors.lastName} />
           </label>
         </div>
         <div>

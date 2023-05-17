@@ -1,5 +1,3 @@
-Additionally, replace the entire SignInForm component with:
-
 import React, { useState } from "react";
 import config from "../../config";
 import FormError from "../layout/FormError";
