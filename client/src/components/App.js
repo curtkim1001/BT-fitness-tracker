@@ -11,6 +11,7 @@ import TopBar from "./layout/TopBar";
 import UserProfile from "./layout/UserProfile";
 import Home from "./layout/Home";
 import RoutineList from "./layout/RoutineList"
+import RoutineShow from "./layout/RoutineShow"
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -37,6 +38,7 @@ const App = (props) => {
         <Route exact path="/user-sessions/new" component={SignInForm} />
         <AuthenticatedRoute exact path="/profile" component={UserProfile} user={currentUser} />
         <AuthenticatedRoute exact path="/workouts" component={RoutineList} user={currentUser} />
+        <AuthenticatedRoute exact path="/workouts/:id" component={RoutineShow} user={currentUser} />
       </Switch>
     </Router>
   );

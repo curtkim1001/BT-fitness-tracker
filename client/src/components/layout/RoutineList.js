@@ -32,10 +32,10 @@ const RoutineList = (props) => {
     <div className="grid-container">
         <div className="routine-container grid-x align-center">
             <h1>{props.user.firstName} {props.user.lastName}'s Workout Routines:</h1>
-            <div className="cell medium-6 large-6">
+            <div className="cell medium-8 large-8">
                 {routinesListArray}
             </div>
-            <div className="cell medium-6 large-6">
+            <div className="cell medium-4 large-4">
                 <RoutineForm />
             </div>
         </div>
