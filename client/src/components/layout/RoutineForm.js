@@ -70,7 +70,7 @@ const RoutineForm = (props) => {
     }
 
     return (
-    <div className="callout cell auto grid-x rounded-corner">
+    <div className="callout cell auto grid-x rounded-corner new-workout-form">
         <div className="cell routine-form-text">
             <h1>Create a New Workout</h1>
             <ErrorList errors={errors} />

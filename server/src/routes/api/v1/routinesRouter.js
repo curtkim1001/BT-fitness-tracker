@@ -2,16 +2,33 @@ import express from "express"
 import objection from "objection"
 import cleanUserInput from "../../../services/cleanUserInput.js";
 import { Routine, User } from "../../../models/index.js"
+import RoutineSerializer from "../../../serializers/RoutineSerializer.js";
+import routineExercisesRouter from "./routineExercisesRouter.js"
 const { ValidationError } = objection;
 
 const routinesRouter = new express.Router()
 
+routinesRouter.use("/:routineId/exercises", routineExercisesRouter)
+
 routinesRouter.get("/", async (req, res) => {
     try {
-        const routines = await Routine.query().orderBy('createdAt','desc')
-        res.status(200).json({ routines })
+        const user = req.user
+        const routines = await user.$relatedQuery("routines").orderBy('createdAt','desc')
+        const serializedRoutines = await RoutineSerializer.getSummary(routines)
+        res.status(200).json({ routines: serializedRoutines })
     } catch (error) {
         res.status(500).json({ errors: error.message })
+    }
+})
+
+routinesRouter.get("/:id", async (req, res) => {
+    const { id } = req.params
+    try {
+        const routine = await Routine.query().findById(id)
+        const serializedRoutine = await RoutineSerializer.getSummary([routine])
+        return res.status(200).json({ routine: serializedRoutine })
+    } catch (error) {
+        res.status(500).json({ errors: error })
     }
 })
 
@@ -37,17 +54,6 @@ routinesRouter.post("/", async (req, res) => {
         }
     }
 });
-
-// moviesRouter.get("/:id", async (req, res) => {
-//     const { id } = req.params
-//     try {
-//         const movie = await Movie.query().findById(id)
-//         const serializedMovie = await MovieSerializer.getSummary(movie, req.user)
-//         return res.status(200).json({ movie: serializedMovie })
-//     } catch (error) {
-//         res.status(500).json({ errors: error })
-//     }
-// })
 
 export default routinesRouter
 

@@ -22,7 +22,7 @@ const RoutineTile = ({ routine }) => {
     
   return (
     <>
-      {/* <Link to={`/movies/${movie.id}`}> */}
+      <Link to={`/workouts/${routine.id}`}>
         <div className="callout border rounded-corner">
             <h4>
               <strong>{routine.name}</strong>
@@ -32,7 +32,7 @@ const RoutineTile = ({ routine }) => {
             {categoryText}
             <p>Date Created: {formatDate(routine.createdAt)}</p>
         </div>
-      {/* </Link> */}
+      </Link>
     </>
   );
 };
