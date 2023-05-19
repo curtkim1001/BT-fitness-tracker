@@ -1,7 +1,7 @@
 import express from "express"
 import objection from "objection"
 import cleanUserInput from "../../../services/cleanUserInput.js";
-import { Routine, User } from "../../../models/index.js"
+import { Routine, User, Workout } from "../../../models/index.js"
 import RoutineSerializer from "../../../serializers/RoutineSerializer.js";
 import routineExercisesRouter from "./routineExercisesRouter.js"
 const { ValidationError } = objection;
@@ -54,6 +54,21 @@ routinesRouter.post("/", async (req, res) => {
         }
     }
 });
+
+routinesRouter.delete("/:id", async (req, res) => {
+    const { id } = req.params
+    try {
+        const routine = await Routine.query().findById(id)
+        const relatedWorkouts = await routine.$relatedQuery("workouts")
+        relatedWorkouts.forEach(async (workout)=> {
+            await Workout.query().deleteById(workout.id)
+        })
+        await Routine.query().deleteById(id)
+        res.status(200).json({ message: "Routine was deleted by user" })
+    } catch (error) {
+        return res.status(500).json({ errors: error })
+    }
+})
 
 export default routinesRouter
 

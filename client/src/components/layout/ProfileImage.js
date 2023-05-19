@@ -3,6 +3,7 @@ import Dropzone from "react-dropzone";
 import FormError from "./FormError";
 
 const ProfileImage = (props) => {
+  let profileImage
   const [photo, setPhoto] = useState(null);
   const [newPhotoFormData, setNewPhotoFormData] = useState({
     image: {},
@@ -60,11 +61,15 @@ const ProfileImage = (props) => {
         }
   };
 
+  if (photo) {
+    profileImage = <div className="callout secondary profile-pic"><img className="profile-image" src={photo} alt="user uploaded profile picture"/></div>
+  } else {
+    profileImage = null
+  }
+
   return (
     <div className="flex-container">
-      <div className="callout secondary profile-pic">
-        <img className="profile-image" src={photo} alt="user uploaded profile picture"/>
-      </div>
+        {profileImage}
 
       <form className="callout primary picture-form" onSubmit={addPhoto}>
         <Dropzone onDrop={handleImageUpload}>

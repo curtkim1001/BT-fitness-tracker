@@ -25,7 +25,7 @@ const ExercistList = (props) => {
 
     const allExercisesArray = exercises.map(exercise => {
         return (
-            <ExerciseTile key={exercise.id} exercise={exercise} />
+            <ExerciseTile key={exercise.id} exercise={exercise} routine={props.routine}/>
         )
     })
 
