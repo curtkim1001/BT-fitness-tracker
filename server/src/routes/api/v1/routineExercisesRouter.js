@@ -3,6 +3,7 @@ import cleanUserInput from "../../../services/cleanUserInput.js";
 import objection from "objection";
 const { ValidationError } = objection;
 import { Exercise, Routine, User, Workout } from "../../../models/index.js";
+import ExerciseSerializer from "../../../serializers/ExerciseSerializer.js"
 
 const routineExercisesRouter = new express.Router({ mergeParams: true });
 
@@ -52,15 +53,29 @@ routineExercisesRouter.post("/", async (req, res) => {
 });
 
 routineExercisesRouter.delete("/:exerciseId", async (req, res) => {
-  const { exerciseId } = req.params
+  const { exerciseId, routineId } = req.params
   try {
-      const exercise = await Exercise.query().findById(exerciseId)
-      const relatedWorkout = await exercise.$relatedQuery("workouts")
-      await Workout.query().deleteById(relatedWorkout[0].id)
+      await Workout.query().findOne({exerciseId, routineId}).delete()
       await Exercise.query().deleteById(exerciseId)
       res.status(200).json({ message: "Exercise was deleted by user" })
   } catch (error) {
       return res.status(500).json({ errors: error })
+  }
+})
+
+routineExercisesRouter.patch("/:exerciseId", async (req, res) => {
+  const { exerciseId } = req.params
+  try {
+      const { body } = req
+      const cleanedInput = cleanUserInput(body.exercise)
+      const exercise = await Exercise.query().patchAndFetchById(exerciseId, cleanedInput)
+      return res.status(200).json({ exercise:exercise })
+  } catch (err) {
+      if (err instanceof ValidationError) {
+          res.status(422).json({ errors: err.data })
+      } else {
+          res.status(500).json({ errors: err.message })
+      }
   }
 })
 

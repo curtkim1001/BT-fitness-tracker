@@ -70,5 +70,21 @@ routinesRouter.delete("/:id", async (req, res) => {
     }
 })
 
+routinesRouter.patch("/:id", async (req, res) => {
+    const { id } = req.params
+    try {
+        const { body } = req
+        const cleanedInput = cleanUserInput(body.routine)
+        const edittedRoutine = await Routine.query().patchAndFetchById(id, cleanedInput)
+        return res.status(200).json({ routine:edittedRoutine })
+    } catch (err) {
+        if (err instanceof ValidationError) {
+            res.status(422).json({ errors: err.data })
+        } else {
+            res.status(500).json({ errors: err.message })
+        }
+    }
+  })
+
 export default routinesRouter
 

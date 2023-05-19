@@ -76,7 +76,7 @@ const RoutineForm = (props) => {
             <ErrorList errors={errors} />
             <form onSubmit={handleSubmit}>
             <label htmlFor="name">
-                Workout Title:
+                Name of Workout:
                 <input
                 className="rounded-corner"
                 type="text"
@@ -103,6 +103,7 @@ const RoutineForm = (props) => {
                 className="rounded-corner"
                 type="text"
                 name="duration"
+                placeholder="minutes"
                 onChange={handleInputChange}
                 value={routineRecord.duration}
                 />
