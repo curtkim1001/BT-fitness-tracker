@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import ExerciseTile from "./ExerciseTile.js"
 
-const ExercistList = (props) => {
+const ExerciseList = (props) => {
     const [exercises, setExercises] = useState([])
 
     const getExercises = async () => {
         try {
-            const response = await fetch(`/api/v1/routines/${props.routineId}/exercises`);
+            const response = await fetch(`/api/v1/workouts/${props.workoutId}/exercises`);
             if (!response.ok) {
                 const errorMessage = `${response.status} (${response.statusText})`;
                 const error = new Error(errorMessage);
@@ -25,7 +25,7 @@ const ExercistList = (props) => {
 
     const allExercisesArray = exercises.map(exercise => {
         return (
-            <ExerciseTile key={exercise.id} exercise={exercise} routine={props.routine}/>
+            <ExerciseTile key={exercise.id} exercise={exercise} workout={props.workout}/>
         )
     })
 
@@ -34,4 +34,4 @@ const ExercistList = (props) => {
     )
 };
 
-export default ExercistList;
+export default ExerciseList;

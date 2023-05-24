@@ -3,44 +3,33 @@ import { Redirect, Link } from "react-router-dom";
 import ErrorList from "./ErrorList";
 import translateServerErrors from "../../services/translateServerErrors.js";
 
-const RoutineTile = ({ routine }) => {
+const WorkoutTile = ({ workout }) => {
   const [shouldRedirect, setShouldRedirect] = useState(false)
   const [editForm, setEditForm] = useState(false)
   const [errors, setErrors] = useState([])
-  const [currentRoutine, setCurrentRoutine] = useState(routine)
-  const [edittedRoutine, setEdittedRoutine] = useState({
-    name: routine.name,
-    description: routine.description || "",
-    duration: routine.duration || "",
-    subcategory: routine.subcategory || ""
+  const [currentWorkout, setCurrentWorkout] = useState(workout)
+  const [edittedWorkout, setEdittedWorkout] = useState({
+    name: workout.name,
+    duration: workout.duration || "",
+    subcategory: workout.subcategory || "",
+    notes: workout.notes || "",
+    effortLevel: workout.effortLevel || ""
 })
 
-    let descriptionText
-    let durationText
-    let categoryText
-    if (currentRoutine.description) {
-        descriptionText = <p>Description: {currentRoutine.description}</p>
-    }
-    if (currentRoutine.duration) {
-        durationText = <p>Duration: {currentRoutine.duration} minutes</p>
-    }
-    if (currentRoutine.subcategory) {
-        categoryText = <p>Category: {currentRoutine.subcategory}</p>
-    }
 
     const formatDate = (string)=> {
         const tIndex = string.indexOf("T")
         return string.slice(0,tIndex)
     }
 
-    const patchEdittedRoutine = async () => {
+    const patchEdittedWorkout = async () => {
       try {
-          const response = await fetch(`/api/v1/routines/${routine.id}`, {
+          const response = await fetch(`/api/v1/workouts/${workout.id}`, {
               method: "PATCH",
               headers: new Headers({
                   "Content-Type": "application/json"
               }),
-              body: JSON.stringify( {routine: edittedRoutine} )
+              body: JSON.stringify( {workout: edittedWorkout} )
           })
           if (!response.ok) {
               if (response.status === 422) {
@@ -53,7 +42,7 @@ const RoutineTile = ({ routine }) => {
               }
           } else {
               const responseBody = await response.json()
-              setCurrentRoutine(responseBody.routine)
+              setCurrentWorkout(responseBody.workout)
               window.location.reload();
               // setShouldRedirect(true)
           }
@@ -64,7 +53,7 @@ const RoutineTile = ({ routine }) => {
 
     const deleteWorkout = async () => {
       try {
-          const response = await fetch(`/api/v1/routines/${routine.id}`,
+          const response = await fetch(`/api/v1/workouts/${workout.id}`,
               { method: "DELETE" })
           if (!response.ok) {
               const errorMessage = `${response.status} (${response.statusText})`
@@ -93,15 +82,15 @@ const RoutineTile = ({ routine }) => {
     }
 
     const handleEditFormChange = (event) => {
-      setEdittedRoutine({
-          ...edittedRoutine,
+      setEdittedWorkout({
+          ...edittedWorkout,
           [event.currentTarget.name]: event.currentTarget.value
       })
     }
 
     const handleEditSubmit = (event) => {
       event.preventDefault()
-      patchEdittedRoutine()
+      patchEdittedWorkout()
     }
 
     if (shouldRedirect) {
@@ -121,18 +110,7 @@ const RoutineTile = ({ routine }) => {
                   type="text"
                   name="name"
                   onChange={handleEditFormChange}
-                  value={edittedRoutine.name}
-                  />
-              </label>
-
-              <label htmlFor="description">
-                  Description:
-                  <input
-                  className="rounded-corner"
-                  type="text"
-                  name="description"
-                  onChange={handleEditFormChange}
-                  value={edittedRoutine.description}
+                  value={edittedWorkout.name}
                   />
               </label>
 
@@ -143,7 +121,7 @@ const RoutineTile = ({ routine }) => {
                   type="text"
                   name="duration"
                   onChange={handleEditFormChange}
-                  value={edittedRoutine.duration}
+                  value={edittedWorkout.duration}
                   /> minutes
               </label>
 
@@ -152,30 +130,51 @@ const RoutineTile = ({ routine }) => {
                   <select
                   className="category-box"
                   id="subcategory"
-                  value={edittedRoutine.subcategory}
+                  value={edittedWorkout.subcategory}
                   onChange={handleEditFormChange}
                   name="subcategory"
                   >
                   <option value="empty"></option>
-                  <option value="Bodyweight Management">Bodyweight Management</option>
-                  <option value="Cardiovascular Training">Cardiovascular Training</option>
-                  <option value="Circuit Training">Circuit Training</option>
-                  <option value="CrossFit">CrossFit</option>
-                  <option value="Endurance Training">Endurance Training</option>
-                  <option value="Flexibility and Mobility">Flexibility and Mobility</option>
-                  <option value="Group Fitness Classes">Group Fitness Classes</option>
-                  <option value="High-Intensity Interval Training (HIIT)">High-Intensity Interval Training (HIIT)</option>
-                  <option value="Mindfulness and Meditation">Mindfulness and Meditation</option>
-                  <option value="Outdoor Workouts">Outdoor Workouts</option>
-                  <option value="Rehabilitation or Injury Prevention">Rehabilitation or Injury Prevention</option>
-                  <option value="Specialized Training">Specialized Training</option>
-                  <option value="Sports Conditioning">Sports Conditioning</option>
-                  <option value="Sports-Specific Training">Sports-Specific Training</option>
-                  <option value="Strength Training">Strength Training</option>
-                  <option value="Weight Loss">Weight Loss</option>
-                  <option value="Yoga/Pilates">Yoga/Pilates</option>
+                  <option value="Cardio Training">Cardio Training</option>
+                  <option value="Sports Training">Sports Training</option>
+                  <option value="Flexibility Training">Flexibility Training</option>
+                  <option value="Weight/Resistance Training">Weight/Resistance Training</option>
                   </select>
               </label>
+
+              <label htmlFor="effortLevel">
+                Intensity level from 1 to 10:
+                <select
+                className="category-box"
+                id="effortLevel"
+                value={edittedWorkout.effortLevel}
+                onChange={handleEditFormChange}
+                name="effortLevel"
+                >
+                <option value=""></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                </select>
+            </label>
+
+            <label htmlFor="notes">
+                Notes:
+                <input
+                className="rounded-corner"
+                type="text"
+                name="notes"
+                onChange={handleEditFormChange}
+                value={edittedWorkout.notes}
+                />
+            </label>
 
               <div className="button-group">
                   <input className="button" type="submit" value="Submit Changes" />
@@ -185,14 +184,15 @@ const RoutineTile = ({ routine }) => {
           ) : (
             <div>
               <h4>
-                <Link to={`/workouts/${routine.id}`}>
-                  <strong>{currentRoutine.name}</strong>
+                <Link to={`/workouts/${workout.id}`}>
+                  <strong>{currentWorkout.name}</strong>
                 </Link>
               </h4>
-              {descriptionText}
-              {durationText}
-              {categoryText}
-              <p>Date Created: {formatDate(currentRoutine.createdAt)}</p>
+              {currentWorkout.duration && <p>Duration : {currentWorkout.duration}</p>}
+              {currentWorkout.subcategory && <p>Category: {currentWorkout.subcategory}</p>}
+              {currentWorkout.effortLevel && <p>Level of Intensity: {currentWorkout.effortLevel}</p>}
+              {currentWorkout.notes && <p>Notes: {currentWorkout.notes}</p>}
+              <p>Date Created: {formatDate(currentWorkout.createdAt)}</p>
               <div>
                 <button className="button delete-button" onClick={deleteWorkoutHandler}>Delete Workout</button>
                 <button className="button edit-button" onClick={editWorkoutHandler}>Edit Workout</button>
@@ -203,4 +203,4 @@ const RoutineTile = ({ routine }) => {
   );
 };
 
-export default RoutineTile;
+export default WorkoutTile;

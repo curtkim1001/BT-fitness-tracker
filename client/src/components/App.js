@@ -10,8 +10,9 @@ import SignInForm from "./authentication/SignInForm";
 import TopBar from "./layout/TopBar";
 import UserProfile from "./layout/UserProfile";
 import Home from "./layout/Home";
-import RoutineList from "./layout/RoutineList"
-import RoutineShow from "./layout/RoutineShow"
+import WorkoutList from "./layout/WorkoutList"
+import WorkoutShow from "./layout/WorkoutShow"
+import ExerciseSets from "./layout/ExerciseSets"
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -37,8 +38,9 @@ const App = (props) => {
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
         <AuthenticatedRoute exact path="/profile" component={UserProfile} user={currentUser} />
-        <AuthenticatedRoute exact path="/workouts" component={RoutineList} user={currentUser} />
-        <AuthenticatedRoute exact path="/workouts/:id" component={RoutineShow} user={currentUser} />
+        <AuthenticatedRoute exact path="/workouts" component={WorkoutList} user={currentUser} />
+        <AuthenticatedRoute exact path="/workouts/:id" component={WorkoutShow} user={currentUser} />
+        <AuthenticatedRoute exact path="/workouts/:id/exercises/:exerciseId" component={ExerciseSets} user={currentUser} />
       </Switch>
     </Router>
   );

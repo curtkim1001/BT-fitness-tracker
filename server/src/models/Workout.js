@@ -5,22 +5,50 @@ class Workout extends Model {
         return "workouts"
     }
 
-    static get relationMappings() {
-        const { Routine, Exercise } = require("./index.js")
+    static get jsonSchema() {
         return {
-            routine: {
+            type: "object",
+            required: ["name", "userId"],
+            properties: {
+                name: { type: "string" },
+                duration: { type: ["string", "integer"] },
+                // date: { "type": "string", "format": "date-time" },
+                subcategory: { type: "string" },
+                notes: { type : "string" },
+                effortLevel: { type : ["string", "integer"]},
+                userId: { type: ["integer","string"] }
+            }
+        }
+    }
+
+    static get relationMappings() {
+        const { User, Set, Exercise } = require("./index.js")
+        return {
+            user: {
                 relation: Model.BelongsToOneRelation,
-                modelClass: Routine,
+                modelClass: User,
                 join: {
-                    from: "workouts.routineId",
-                    to: "routines.id"
+                    from: "workouts.userId",
+                    to: "users.id"
                 }
             },
-            exercise: {
-                relation: Model.BelongsToOneRelation,
+            sets: {
+                relation: Model.HasManyRelation,
+                modelClass: Set,
+                join: {
+                    from: "workouts.id",
+                    to: "sets.workoutId"
+                }
+            },
+            exercises: {
+                relation: Model.ManyToManyRelation,
                 modelClass: Exercise,
                 join: {
-                    from: "workouts.exerciseId",
+                    from: "workouts.id",
+                    through: {
+                        from: "sets.workoutId",
+                        to: "sets.exerciseId"
+                    },
                     to: "exercises.id"
                 }
             }

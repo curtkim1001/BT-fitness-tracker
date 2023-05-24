@@ -49,23 +49,15 @@ class User extends uniqueFunc(Model) {
   }
 
   static get relationMappings() {
-    const { Routine, Exercise } = require("./index.js")
+    const { Workout } = require("./index.js")
     
     return {
-      routines: {
+      workouts: {
         relation: Model.HasManyRelation,
-        modelClass: Routine,
+        modelClass: Workout,
         join: {
           from: "users.id", 
-          to: "routines.userId"
-        }
-      },
-      exercises: {
-        relation: Model.HasManyRelation,
-        modelClass: Exercise,
-        join: {
-          from: "users.id",
-          to: "exercises.userId"
+          to: "workouts.userId"
         }
       }
     }

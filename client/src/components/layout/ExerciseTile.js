@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import ErrorList from "./ErrorList";
 import translateServerErrors from "../../services/translateServerErrors.js";
 
-const ExerciseTile = ({exercise, routine}) => {
+const ExerciseTile = ({exercise, workout}) => {
     const [shouldRedirect, setShouldRedirect] = useState(false)
     const [editForm, setEditForm] = useState(false)
     const [errors, setErrors] = useState([])
@@ -12,7 +12,11 @@ const ExerciseTile = ({exercise, routine}) => {
         name: exercise.name,
         description: exercise.description || "",
         muscleGroup: exercise.muscleGroup || "",
-        bodyFunction: exercise.bodyFunction || ""
+        bodyFunction: exercise.bodyFunction || "",
+        instructions: exercise.instructions || "",
+        videoUrl: exercise.videoUrl || "",
+        equipment: exercise.equipment || "",
+        notes: exercise.notes || ""
     })
 
     const formatDate = (string)=> {
@@ -22,7 +26,7 @@ const ExerciseTile = ({exercise, routine}) => {
 
     const patchEdittedExercise = async () => {
         try {
-            const response = await fetch(`/api/v1/routines/${routine.id}/exercises/${exercise.id}`, {
+            const response = await fetch(`/api/v1/workouts/${workout.id}/exercises/${exercise.id}`, {
                 method: "PATCH",
                 headers: new Headers({
                     "Content-Type": "application/json"
@@ -51,7 +55,7 @@ const ExerciseTile = ({exercise, routine}) => {
 
     const deleteExercise = async () => {
         try {
-            const response = await fetch(`/api/v1/routines/${routine.id}/exercises/${exercise.id}`,
+            const response = await fetch(`/api/v1/workouts/${workout.id}/exercises/${exercise.id}`,
                 { method: "DELETE" })
             if (!response.ok) {
                 const errorMessage = `${response.status} (${response.statusText})`
@@ -92,7 +96,7 @@ const ExerciseTile = ({exercise, routine}) => {
       }
 
       if (shouldRedirect) {
-        return <Redirect push to={`/workouts/${routine.id}`} />
+        return <Redirect push to={`/workouts/${workout.id}`} />
     }
 
     return (
@@ -141,6 +145,46 @@ const ExerciseTile = ({exercise, routine}) => {
                             value={edittedExercise.bodyFunction}
                         />
                         </label>
+                        <label htmlFor="instructions">
+                        Instructions:
+                        <input
+                            className="review-text-box rounded-corner"
+                            type="text"
+                            name="instructions"
+                            onChange={handleEditFormChange}
+                            value={edittedExercise.instructions}
+                        />
+                        </label>
+                        <label htmlFor="videoUrl">
+                        Helpful Video Links:
+                        <input
+                            className="review-text-box rounded-corner"
+                            type="text"
+                            name="videoUrl"
+                            onChange={handleEditFormChange}
+                            value={edittedExercise.videoUrl}
+                        />
+                        </label>
+                        <label htmlFor="equipment">
+                        Necessary Equipment:
+                        <input
+                            className="review-text-box rounded-corner"
+                            type="text"
+                            name="equipment"
+                            onChange={handleEditFormChange}
+                            value={edittedExercise.equipment}
+                        />
+                        </label>
+                        <label htmlFor="notes">
+                        Notes:
+                        <input
+                            className="review-text-box rounded-corner"
+                            type="text"
+                            name="notes"
+                            onChange={handleEditFormChange}
+                            value={edittedExercise.notes}
+                        />
+                        </label>
 
                         <div className="button-group">
                         <input className="button" type="submit" value="Submit Changes" />
@@ -149,12 +193,19 @@ const ExerciseTile = ({exercise, routine}) => {
                 </div>
             ) : (
                 <div>
-                    <h3>{currentExercise.name}</h3>
-                    <p>Description: {currentExercise.description}</p>
-                    <p>Muscle Groups: {currentExercise.muscleGroup}</p>
-                    <p>Body Function: {currentExercise.bodyFunction}</p>
+                    <h3>
+                        <Link to={`/workouts/${workout.id}/exercises/${exercise.id}`}>
+                            <strong>{currentExercise.name}</strong>
+                        </Link>
+                    </h3>
+                    {currentExercise.description && <p>Description: {currentExercise.description}</p>}
+                    {currentExercise.muscleGroup && <p>Muscle Groups Used: {currentExercise.muscleGroup}</p>}
+                    {currentExercise.bodyFunction && <p>Body Function: {currentExercise.bodyFunction}</p>}
+                    {currentExercise.instructions && <p>Instructions: {currentExercise.instructions}</p>}
+                    {currentExercise.equipment && <p>Equipment Needed: {currentExercise.equipment}</p>}
+                    {currentExercise.notes && <p>Notes: {currentExercise.notes}</p>}
                     <p>Start Date: {formatDate(currentExercise.createdAt)}</p>
-                    <div>
+                <div>
                     <button className="button delete-button" onClick={deleteExerciseHandler}>Delete Exercise</button>
                     <button className="button edit-button" onClick={editExerciseHandler}>Edit Exercise</button>
                 </div>

@@ -1,6 +1,6 @@
 import { User } from "../../models/index.js"
 
-class UserSeeder {
+class userSeeder {
     static async seed() {
         const userData = [
             {
@@ -18,8 +18,8 @@ class UserSeeder {
             {
                 email:"fitness@email.com",
                 password: "fitness",
-                firstName: "Curt",
-                lastName: "Kim"
+                firstName: "Peter",
+                lastName: "Quill"
             }
         ]
         
@@ -32,4 +32,4 @@ class UserSeeder {
     }
 }
 
-export default UserSeeder
+export default userSeeder
