@@ -4,24 +4,25 @@ import ErrorList from './ErrorList.js'
 import translateServerErrors from '../../services/translateServerErrors.js';
 import _ from 'lodash'
 
-const RoutineForm = (props) => {
+const WorkoutForm = (props) => {
     const [errors, setErrors] = useState({})
-    const [routineRecord, setRoutineRecord] = useState({
+    const [workoutRecord, setWorkoutRecord] = useState({
         name: "",
-        description: "",
         duration: "",
         subcategory: "",
+        notes: "",
+        effortLevel: ""
     })
     const [shouldRedirect, setShouldRedirect] = useState(false)
 
-    const postRoutine = async (newRoutineData) => {
+    const postWorkout = async (newWorkoutData) => {
         try {
-            const response = await fetch(`/api/v1/routines`, {
+            const response = await fetch(`/api/v1/workouts`, {
             method: "POST",
             headers: new Headers({
                 "Content-Type": "application/json",
             }),
-            body: JSON.stringify(newRoutineData),
+            body: JSON.stringify(newWorkoutData),
             });
             if (!response.ok) {
             if (response.status === 422) {
@@ -44,24 +45,25 @@ const RoutineForm = (props) => {
     };
 
     const handleInputChange = (event) => {
-        setRoutineRecord({
-        ...routineRecord,
+        setWorkoutRecord({
+        ...workoutRecord,
         [event.currentTarget.name]: event.currentTarget.value,
         })
     };
 
     const handleSubmit = (event) => {
     event.preventDefault();
-    postRoutine(routineRecord);
+    postWorkout(workoutRecord);
     clearForm();
     };
 
     const clearForm = () => {
-    setRoutineRecord({
+    setWorkoutRecord({
         name: "",
-        description: "",
         duration: "",
         subcategory: "",
+        notes: "",
+        effortLevel: ""
     });
     };
 
@@ -82,18 +84,7 @@ const RoutineForm = (props) => {
                 type="text"
                 name="name"
                 onChange={handleInputChange}
-                value={routineRecord.name}
-                />
-            </label>
-
-            <label htmlFor="description">
-                Description:
-                <input
-                className="rounded-corner"
-                type="text"
-                name="description"
-                onChange={handleInputChange}
-                value={routineRecord.description}
+                value={workoutRecord.name}
                 />
             </label>
 
@@ -105,7 +96,7 @@ const RoutineForm = (props) => {
                 name="duration"
                 placeholder="minutes"
                 onChange={handleInputChange}
-                value={routineRecord.duration}
+                value={workoutRecord.duration}
                 />
             </label>
 
@@ -114,29 +105,50 @@ const RoutineForm = (props) => {
                 <select
                 className="category-box"
                 id="subcategory"
-                value={routineRecord.subcategory}
+                value={workoutRecord.subcategory}
                 onChange={handleInputChange}
                 name="subcategory"
                 >
                 <option value="empty"></option>
-                <option value="Bodyweight Management">Bodyweight Management</option>
-                <option value="Cardiovascular Training">Cardiovascular Training</option>
-                <option value="Circuit Training">Circuit Training</option>
-                <option value="CrossFit">CrossFit</option>
-                <option value="Endurance Training">Endurance Training</option>
-                <option value="Flexibility and Mobility">Flexibility and Mobility</option>
-                <option value="Group Fitness Classes">Group Fitness Classes</option>
-                <option value="High-Intensity Interval Training (HIIT)">High-Intensity Interval Training (HIIT)</option>
-                <option value="Mindfulness and Meditation">Mindfulness and Meditation</option>
-                <option value="Outdoor Workouts">Outdoor Workouts</option>
-                <option value="Rehabilitation or Injury Prevention">Rehabilitation or Injury Prevention</option>
-                <option value="Specialized Training">Specialized Training</option>
-                <option value="Sports Conditioning">Sports Conditioning</option>
-                <option value="Sports-Specific Training">Sports-Specific Training</option>
-                <option value="Strength Training">Strength Training</option>
-                <option value="Weight Loss">Weight Loss</option>
-                <option value="Yoga/Pilates">Yoga/Pilates</option>
+                <option value="Cardio Training">Cardio Training</option>
+                <option value="Sports Training">Sports Training</option>
+                <option value="Flexibility Training">Flexibility Training</option>
+                <option value="Weight/Resistance Training">Weight/Resistance Training</option>
                 </select>
+            </label>
+
+            <label htmlFor="effortLevel">
+                Intensity level from 1 to 10:
+                <select
+                className="category-box"
+                id="effortLevel"
+                value={workoutRecord.effortLevel}
+                onChange={handleInputChange}
+                name="effortLevel"
+                >
+                <option value=""></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                </select>
+            </label>
+
+            <label htmlFor="notes">
+                Notes:
+                <input
+                className="rounded-corner"
+                type="text"
+                name="notes"
+                onChange={handleInputChange}
+                value={workoutRecord.notes}
+                />
             </label>
 
             <div className="button-group">
@@ -148,4 +160,4 @@ const RoutineForm = (props) => {
     );
 };
 
-export default RoutineForm
+export default WorkoutForm

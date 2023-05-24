@@ -8,7 +8,7 @@ class Exercise extends Model {
     static get jsonSchema() {
         return {
             type: "object",
-            required: [ "name", "userId" ],
+            required: [ "name" ],
             properties: {
                 name: {
                     type: "string"
@@ -21,39 +21,43 @@ class Exercise extends Model {
                 },
                 bodyFunction: {
                     type: "string"
+                },
+                instructions: {
+                    type: "string"
+                },
+                videoUrl: {
+                    type: "string"
+                },
+                equipment: {
+                    type: "string"
+                },
+                notes: {
+                    type: "string"
                 }
             }
         }
     }
     static get relationMappings(){
-        const { User, Workout, Routine } = require("./index.js")
+        const { Set, Workout } = require("./index.js")
         return {
-            user: {
-                relation: Model.BelongsToOneRelation,
-                modelClass: User,
-                join: {
-                    from: "exercises.userId",
-                    to: "users.id"
-                }
-            },
-            routines: {
-                relation: Model.ManyToManyRelation,
-                modelClass: Routine,
-                join: {
-                    from: "exercises.id",
-                    through: {
-                        from: "workouts.exerciseId",
-                        to: "workouts.routineId"
-                    },
-                    to: "routines.id"
-                }
-            },
             workouts: {
-                relation: Model.HasManyRelation,
+                relation: Model.ManyToManyRelation,
                 modelClass: Workout,
                 join: {
                     from: "exercises.id",
-                    to: "workouts.exerciseId"
+                    through: {
+                        from: "sets.exerciseId",
+                        to: "sets.workoutId"
+                    },
+                    to: "workouts.id"
+                }
+            },
+            sets: {
+                relation: Model.HasManyRelation,
+                modelClass: Set,
+                join: {
+                    from: "exercises.id",
+                    to: "sets.exerciseId"
                 }
             },
         }

@@ -1,31 +1,31 @@
 import React, { useEffect, useState } from "react";
-import RoutineTile from "./RoutineTile.js"
-import RoutineForm from "./RoutineForm.js";
+import WorkoutTile from "./WorkoutTile.js"
+import WorkoutForm from "./WorkoutForm.js";
 
-const RoutineList = (props) => {
-  const [routines, setRoutines] = useState([]);
+const WorkoutList = (props) => {
+  const [workouts, setWorkouts] = useState([]);
 
-  const getRoutines = async () => {
+  const getWorkouts = async () => {
     try {
-      const response = await fetch("/api/v1/routines");
+      const response = await fetch("/api/v1/workouts");
       if (!response.ok) {
         const errorMessage = `${response.status} (${response.statusText})`;
         const error = new Error(errorMessage);
         throw error;
       }
       const body = await response.json();
-      setRoutines(body.routines);
+      setWorkouts(body.workouts);
     } catch (error) {
       console.error(`Error in fetch: ${error.message}`);
     }
   };
 
   useEffect(() => {
-    getRoutines();
+    getWorkouts();
   }, []);
 
-  const routinesListArray = routines.map((routine) => {
-    return <RoutineTile routine={routine} key={routine.id} />;
+  const workoutsListArray = workouts.map((workout) => {
+    return <WorkoutTile workout={workout} key={workout.id} />;
   });
 
   return (
@@ -33,14 +33,14 @@ const RoutineList = (props) => {
         <div className="routine-container grid-x align-center">
             <h1>{props.user.firstName} {props.user.lastName}'s Workout Routines:</h1>
             <div className="cell medium-8 large-8">
-                {routinesListArray}
+                {workoutsListArray}
             </div>
             <div className="cell medium-4 large-4">
-                <RoutineForm />
+                <WorkoutForm />
             </div>
         </div>
     </div>
   );
 };
 
-export default RoutineList;
+export default WorkoutList;

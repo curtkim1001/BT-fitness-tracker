@@ -32,7 +32,7 @@ const ExerciseSearch = (props) => {
 
   const addExercise = async (exercise) => {
     try {
-      const response = await fetch(`/api/v1/routines/${props.routine.id}/exercises`, {
+      const response = await fetch(`/api/v1/workouts/${props.workout.id}/exercises/search`, {
         method: "POST",
         headers: new Headers({
           "Content-Type": "application/json",
@@ -49,7 +49,6 @@ const ExerciseSearch = (props) => {
           throw error;
         }
       } else {
-        const responseBody = await response.json();
         setShouldRedirect(true)
       }
     } catch (error) {
@@ -64,7 +63,7 @@ const ExerciseSearch = (props) => {
   };
 
   if (shouldRedirect) {
-    location.href=`/workouts/${props.routine.id}`
+    location.href=`/workouts/${props.workout.id}`
     }
 
 

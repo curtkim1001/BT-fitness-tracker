@@ -1,30 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import React, { useState } from "react";
 import translateServerErrors from "../../services/translateServerErrors.js";
 import ErrorList from "./ErrorList.js";
 
-const ExerciseForm = (props) => {
-  const [newExercise, setNewExercise] = useState({
-    name: "",
-    description: "",
-    muscleGroup: "",
-    bodyFunction: "",
-    instructions: "",
-    videoUrl: "",
-    equipment: "",
-    notes: ""
+const LogSetForm = (props) => {
+  const [newSet, setNewSet] = useState({
+    weight: "",
+    repetitions: "",
+    workoutSets: "",
+    miles: "",
+    calories: "",
+    score: ""
   });
   const [errors, setErrors] = useState([]);
   const [shouldRedirect, setShouldRedirect] = useState(false)
 
-  const postExercise = async (newExerciseData) => {
+  const postSet = async (newSetData) => {
     try {
-      const response = await fetch(`/api/v1/workouts/${props.workout.id}/exercises`, {
+      const response = await fetch(`/api/v1/workouts/${props.workoutId}/exercises/${props.exerciseId}/sets`, {
         method: "POST",
         headers: new Headers({
           "Content-Type": "application/json",
         }),
-        body: JSON.stringify(newExerciseData),
+        body: JSON.stringify(newSetData),
       });
       if (!response.ok) {
         if (response.status === 422) {
@@ -47,118 +44,101 @@ const ExerciseForm = (props) => {
   };
   
   const handleInputChange = (event) => {
-    setNewExercise({
-      ...newExercise,
+    setNewSet({
+      ...newSet,
       [event.currentTarget.name]: event.currentTarget.value,
     });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    postExercise(newExercise);
+    postSet(newSet);
     clearForm();
   };
 
   const clearForm = () => {
-    setNewExercise({
-      name: "",
-      description: "",
-      muscleGroup: "",
-      bodyFunction: "",
-      instructions: "",
-      videoUrl: "",
-      equipment: "",
-      notes: ""
+    setNewSet({
+        weight: "",
+        repetitions: "",
+        workoutSets: "",
+        miles: "",
+        calories: "",
+        score: ""
     });
   };
 
   if (shouldRedirect) {
-    location.href=`/workouts/${props.workout.id}`
+    location.href = `/workouts/${props.workoutId}/exercises/${props.exerciseId}`
 }
 
   return (
     <div className="callout create-review rounded-corner">
-      <h4>Add a New Exercise</h4>
+      <h4>Log manually</h4>
       <ErrorList errors={errors} />
       <form onSubmit={handleSubmit}>
-        <label htmlFor="name">
-          Name:
+        <label htmlFor="weight">
+          Weight:
           <input
             className="review-text-box rounded-corner"
             type="text"
-            name="name"
+            name="weight"
             onChange={handleInputChange}
-            value={newExercise.name}
+            value={newSet.weight}
           />
         </label>
-        <label htmlFor="description">
-          Description:
+
+        <label htmlFor="repetitions">
+          Repetitions:
           <input
             className="review-text-box rounded-corner"
             type="text"
-            name="description"
+            name="repetitions"
             onChange={handleInputChange}
-            value={newExercise.description}
+            value={newSet.repetitions}
           />
         </label>
-        <label htmlFor="muscleGroup">
-          Target Muscles:
+
+        <label htmlFor="workoutSets">
+          Number of sets:
           <input
             className="review-text-box rounded-corner"
             type="text"
-            name="muscleGroup"
+            name="workoutSets"
             onChange={handleInputChange}
-            value={newExercise.muscleGroup}
+            value={newSet.workoutSets}
           />
         </label>
-        <label htmlFor="bodyFunction">
-          Body Function:
+
+        <label htmlFor="miles">
+          Distance covered:
           <input
             className="review-text-box rounded-corner"
             type="text"
-            name="bodyFunction"
+            name="miles"
             onChange={handleInputChange}
-            value={newExercise.bodyFunction}
+            value={newSet.miles}
           />
         </label>
-        <label htmlFor="instructions">
-          Instructions:
+
+        <label htmlFor="calories">
+          Calories burned (in kcal):
           <input
             className="review-text-box rounded-corner"
             type="text"
-            name="instructions"
+            name="calories"
             onChange={handleInputChange}
-            value={newExercise.instructions}
+            value={newSet.calories}
           />
         </label>
-        <label htmlFor="videoUrl">
-          Helpful Video Links:
+
+        <label htmlFor="score">
+          Score/Result:
           <input
             className="review-text-box rounded-corner"
             type="text"
-            name="videoUrl"
+            name="score"
             onChange={handleInputChange}
-            value={newExercise.videoUrl}
-          />
-        </label>
-        <label htmlFor="equipment">
-          Necessary Equipment:
-          <input
-            className="review-text-box rounded-corner"
-            type="text"
-            name="equipment"
-            onChange={handleInputChange}
-            value={newExercise.equipment}
-          />
-        </label>
-        <label htmlFor="notes">
-          Notes:
-          <input
-            className="review-text-box rounded-corner"
-            type="text"
-            name="notes"
-            onChange={handleInputChange}
-            value={newExercise.notes}
+            value={newSet.score}
           />
         </label>
 
@@ -170,4 +150,4 @@ const ExerciseForm = (props) => {
   );
 };
 
-export default ExerciseForm;
+export default LogSetForm;
