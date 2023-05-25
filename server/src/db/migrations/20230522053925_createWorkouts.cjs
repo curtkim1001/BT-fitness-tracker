@@ -21,6 +21,7 @@ exports.up = async (knex) => {
         table.timestamp("createdAt")
             .notNullable()
             .defaultTo(knex.fn.now())
+        table.date("workoutDate").notNullable()
         table.timestamp("updatedAt")
             .notNullable()
             .defaultTo(knex.fn.now())

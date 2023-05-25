@@ -25,7 +25,12 @@ const WorkoutList = (props) => {
   }, []);
 
   const workoutsListArray = workouts.map((workout) => {
-    return <WorkoutTile workout={workout} key={workout.id} />;
+    return (
+      <div className="workout-item" key={workout.id}>
+        <div className="workout-date">{workout.workoutDate}</div>
+        <div className="workout-tile"><WorkoutTile workout={workout} /></div>
+      </div>
+    )
   });
 
   return (
@@ -33,7 +38,9 @@ const WorkoutList = (props) => {
         <div className="routine-container grid-x align-center">
             <h1>{props.user.firstName} {props.user.lastName}'s Workout Routines:</h1>
             <div className="cell medium-8 large-8">
+              <div className="workouts-list">
                 {workoutsListArray}
+              </div>
             </div>
             <div className="cell medium-4 large-4">
                 <WorkoutForm />

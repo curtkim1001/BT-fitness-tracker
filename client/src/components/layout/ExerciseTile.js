@@ -204,7 +204,6 @@ const ExerciseTile = ({exercise, workout}) => {
                     {currentExercise.instructions && <p>Instructions: {currentExercise.instructions}</p>}
                     {currentExercise.equipment && <p>Equipment Needed: {currentExercise.equipment}</p>}
                     {currentExercise.notes && <p>Notes: {currentExercise.notes}</p>}
-                    <p>Start Date: {formatDate(currentExercise.createdAt)}</p>
                 <div>
                     <button className="button delete-button" onClick={deleteExerciseHandler}>Delete Exercise</button>
                     <button className="button edit-button" onClick={editExerciseHandler}>Edit Exercise</button>

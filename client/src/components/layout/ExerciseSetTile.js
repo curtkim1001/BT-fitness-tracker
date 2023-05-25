@@ -40,7 +40,6 @@ const ExerciseSetTile = ({ set, workoutId, exerciseId }) => {
     
   return (
         <div className="callout border rounded-corner">
-          <h4>Date: {formatDate(set.createdAt)}</h4>
           {set.weight && <p>Weight: {set.weight}</p>}
           {set.repetitions && <p>{set.repetitions} reps</p>}
           {set.workoutSets && <p>Sets: {set.workoutSets}</p>}

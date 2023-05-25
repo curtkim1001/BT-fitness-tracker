@@ -33,6 +33,7 @@ const WorkoutShow = (props) => {
                 <h1>Current Workout: {workout.name}</h1>
                 <div className="tile">
                     <div className="tile-content">
+                        <p>Date of Workout: {workout.workoutDate}</p>
                         {workout.duration && <p>Duration : {workout.duration}</p>}
                         {workout.subcategory && <p>Category: {workout.subcategory}</p>}
                         {workout.effortLevel && <p>Level of Intensity: {workout.effortLevel}</p>}

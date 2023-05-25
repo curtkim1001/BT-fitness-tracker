@@ -41,6 +41,9 @@ const TopBar = ({ user }) => {
           <li>
             <Link to="/workouts">Workouts</Link>
           </li>
+          <li>
+            <Link to="/dashboard">Dashboard</Link>
+          </li>
         </ul>
       </div>
       <div className="top-bar-right">

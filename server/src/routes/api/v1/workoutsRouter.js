@@ -4,6 +4,8 @@ import cleanUserInput from "../../../services/cleanUserInput.js";
 import { Workout, User, Set, Exercise } from "../../../models/index.js"
 import WorkoutSerializer from "../../../serializers/WorkoutSerializer.js";
 import workoutExercisesRouter from "./workoutExercisesRouter.js";
+import PieChart from "../../../charts/pieChart.js";
+import LineChart from "../../../charts/LineChart.js";
 const { ValidationError } = objection;
 
 const workoutsRouter = new express.Router()
@@ -32,10 +34,74 @@ workoutsRouter.get("/:id", async (req, res) => {
     }
 })
 
+workoutsRouter.get("/chart/:viewType", async (req, res) => {
+    const { viewType } = req.params
+    const { id } = req.user
+    try {
+        const workouts = await Workout.query().where("userId",id)
+        const serializedWorkouts = await WorkoutSerializer.getSummary(workouts)
+        const pieChartData = PieChart.extractData(serializedWorkouts)
+        const caloriesLineChartData = LineChart.extractCaloriesData(serializedWorkouts)
+        const distanceLineChartData = LineChart.extractDistanceData(serializedWorkouts)
+        const durationLineChartData = LineChart.extractDurationData(serializedWorkouts)
+        return res.status(200).json({ pieChartData, caloriesLineChartData, distanceLineChartData, durationLineChartData })
+    } catch (error) {
+        res.status(500).json({ errors: error })
+    }
+})
+
+workoutsRouter.get("/chart/:viewType/:viewDetails", async (req, res) => {
+    const { viewType, viewDetails } = req.params
+    const { id } = req.user
+    let pieChartData
+    let caloriesLineChartData
+    let distanceLineChartData
+    let durationLineChartData
+    try {
+        const workouts = await Workout.query().where("userId",id)
+        const serializedWorkouts = await WorkoutSerializer.getSummary(workouts)
+        if (viewType === "yearly") {
+            const filteredWorkouts = serializedWorkouts.filter((workout) => {
+                const date = new Date(workout.workoutDate)
+                return date.getFullYear() === parseInt(viewDetails);
+            });
+            pieChartData = PieChart.extractData(filteredWorkouts)
+            caloriesLineChartData = LineChart.extractCaloriesData(filteredWorkouts)
+            distanceLineChartData = LineChart.extractDistanceData(filteredWorkouts)
+            durationLineChartData = LineChart.extractDurationData(filteredWorkouts)
+        } else if (viewType === "monthly") {
+            const filteredWorkouts = serializedWorkouts.filter((workout) => {
+                const date = new Date(workout.workoutDate)
+                const workoutMonth = date.getMonth() + 1;
+                return workoutMonth === parseInt(viewDetails);
+            });
+            pieChartData = PieChart.extractData(filteredWorkouts)
+            caloriesLineChartData = LineChart.extractCaloriesData(filteredWorkouts)
+            distanceLineChartData = LineChart.extractDistanceData(filteredWorkouts)
+            durationLineChartData = LineChart.extractDurationData(filteredWorkouts)
+        } else if (viewType === "weekly") {
+            const selectedEndDate = new Date(viewDetails)
+            const selectedStartDate = new Date(selectedEndDate)
+            selectedStartDate.setDate(selectedStartDate.getDate()-6)
+            const filteredWorkouts = serializedWorkouts.filter((workout) => {
+                const workoutDate = new Date(workout.workoutDate);
+                return workoutDate >= selectedStartDate && workoutDate <= selectedEndDate;
+            });
+            pieChartData = PieChart.extractData(filteredWorkouts)
+            caloriesLineChartData = LineChart.extractCaloriesData(filteredWorkouts)
+            distanceLineChartData = LineChart.extractDistanceData(filteredWorkouts)
+            durationLineChartData = LineChart.extractDurationData(filteredWorkouts)
+        }
+        return res.status(200).json({ pieChartData, caloriesLineChartData, distanceLineChartData, durationLineChartData })
+    } catch (error) {
+        res.status(500).json({ errors: error })
+    }
+})
+
 workoutsRouter.post("/", async (req, res) => {
     const { body } = req
     const formInput = cleanUserInput(body);
-    const { name, duration, subcategory, notes, effortLevel } = formInput;
+    const { name, duration, subcategory, notes, effortLevel, workoutDate } = formInput;
     const userId = req.user.id;
     try {
         const newWorkout = await Workout.query().insertAndFetch({
@@ -44,7 +110,8 @@ workoutsRouter.post("/", async (req, res) => {
             duration,
             subcategory,
             notes,
-            effortLevel
+            effortLevel,
+            workoutDate
         });
         return res.status(201).json({ workout: newWorkout });
     } catch (error) {
