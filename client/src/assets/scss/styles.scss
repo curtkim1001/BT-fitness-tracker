@@ -204,3 +204,22 @@
 .delete-button {
     margin-right: 1em;
 }
+
+.workouts-list {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .workout-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .workout-date {
+    margin-right: 10px;
+  }
+  
+  .workout-tile {
+    flex-grow: 1;
+  }

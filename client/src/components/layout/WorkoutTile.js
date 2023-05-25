@@ -13,14 +13,9 @@ const WorkoutTile = ({ workout }) => {
     duration: workout.duration || "",
     subcategory: workout.subcategory || "",
     notes: workout.notes || "",
-    effortLevel: workout.effortLevel || ""
+    effortLevel: workout.effortLevel || "",
+    workoutDate: workout.workoutDate || ""
 })
-
-
-    const formatDate = (string)=> {
-        const tIndex = string.indexOf("T")
-        return string.slice(0,tIndex)
-    }
 
     const patchEdittedWorkout = async () => {
       try {
@@ -62,7 +57,8 @@ const WorkoutTile = ({ workout }) => {
           }
           const responseBody = await response.json()
           alert(`${responseBody.message}`)
-          setShouldRedirect(true)
+          window.location.reload();
+          // setShouldRedirect(true)
       } catch (err) {
           console.error(`Error in fetch: ${err.message}`)
       }
@@ -103,6 +99,19 @@ const WorkoutTile = ({ workout }) => {
             <div>
               <ErrorList errors={errors} />
               <form onSubmit={handleEditSubmit}>
+              <label htmlFor="workoutDate">
+                Date of Workout:
+                <input
+                className="rounded-corner"
+                id="workoutDate"
+                type="date"
+                name="workoutDate"
+                onChange={handleEditFormChange}
+                value={edittedWorkout.workoutDate}
+                required
+                />
+              </label>
+
               <label htmlFor="name">
                   Name of Workout:
                   <input
@@ -192,7 +201,6 @@ const WorkoutTile = ({ workout }) => {
               {currentWorkout.subcategory && <p>Category: {currentWorkout.subcategory}</p>}
               {currentWorkout.effortLevel && <p>Level of Intensity: {currentWorkout.effortLevel}</p>}
               {currentWorkout.notes && <p>Notes: {currentWorkout.notes}</p>}
-              <p>Date Created: {formatDate(currentWorkout.createdAt)}</p>
               <div>
                 <button className="button delete-button" onClick={deleteWorkoutHandler}>Delete Workout</button>
                 <button className="button edit-button" onClick={editWorkoutHandler}>Edit Workout</button>

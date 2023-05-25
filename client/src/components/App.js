@@ -13,6 +13,8 @@ import Home from "./layout/Home";
 import WorkoutList from "./layout/WorkoutList"
 import WorkoutShow from "./layout/WorkoutShow"
 import ExerciseSets from "./layout/ExerciseSets"
+import Dashboard from "./layout/Dashboard"
+import Map from "./layout/Map"
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -37,6 +39,8 @@ const App = (props) => {
         <Route exact path="/home" component={Home} />
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
+        <Route exact path="/map" component={Map} />
+        <AuthenticatedRoute exact path="/dashboard" component={Dashboard} user={currentUser} />
         <AuthenticatedRoute exact path="/profile" component={UserProfile} user={currentUser} />
         <AuthenticatedRoute exact path="/workouts" component={WorkoutList} user={currentUser} />
         <AuthenticatedRoute exact path="/workouts/:id" component={WorkoutShow} user={currentUser} />

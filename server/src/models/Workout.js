@@ -8,11 +8,15 @@ class Workout extends Model {
     static get jsonSchema() {
         return {
             type: "object",
-            required: ["name", "userId"],
+            required: ["name", "userId", "workoutDate"],
             properties: {
                 name: { type: "string" },
                 duration: { type: ["string", "integer"] },
-                // date: { "type": "string", "format": "date-time" },
+                workoutDate: { 
+                    "type": "string",
+                    "pattern": "^(\\d{4})-(\\d{2})-(\\d{2})$",
+                    // "errorMessage": "Please enter a valid date in the format 'YYYY-MM-DD'."
+                },
                 subcategory: { type: "string" },
                 notes: { type : "string" },
                 effortLevel: { type : ["string", "integer"]},

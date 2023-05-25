@@ -11,7 +11,8 @@ const WorkoutForm = (props) => {
         duration: "",
         subcategory: "",
         notes: "",
-        effortLevel: ""
+        effortLevel: "",
+        workoutDate: ""
     })
     const [shouldRedirect, setShouldRedirect] = useState(false)
 
@@ -63,7 +64,8 @@ const WorkoutForm = (props) => {
         duration: "",
         subcategory: "",
         notes: "",
-        effortLevel: ""
+        effortLevel: "",
+        workoutDate: ""
     });
     };
 
@@ -77,6 +79,19 @@ const WorkoutForm = (props) => {
             <h1>Create a New Workout</h1>
             <ErrorList errors={errors} />
             <form onSubmit={handleSubmit}>
+            <label htmlFor="workoutDate">
+                Date of Workout:
+                <input
+                className="rounded-corner"
+                id="workoutDate"
+                type="date"
+                name="workoutDate"
+                onChange={handleInputChange}
+                value={workoutRecord.workoutDate}
+                required
+                />
+            </label>
+            
             <label htmlFor="name">
                 Name of Workout:
                 <input
