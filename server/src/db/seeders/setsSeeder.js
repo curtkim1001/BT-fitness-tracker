@@ -1,6 +1,6 @@
 import { Set } from "../../models/index.js"
 
-class setsSeeder {
+class SetsSeeder {
     static async seed() {
         const setsData = [
             {
@@ -377,4 +377,4 @@ class setsSeeder {
 
 
 
-export default setsSeeder
+export default SetsSeeder

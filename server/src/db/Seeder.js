@@ -1,23 +1,23 @@
 /* eslint-disable no-console */
 import { connection } from "../boot.js"
-import userSeeder from "./seeders/userSeeder.js"
-import workoutsSeeder from "./seeders/WorkoutsSeeder.js"
-import exercisesSeeder from "./seeders/exercisesSeeder.js"
-import setsSeeder from "./seeders/SetsSeeder.js"
+import UserSeeder from "./seeders/UserSeeder.js"
+import WorkoutsSeeder from "./seeders/WorkoutsSeeder.js"
+import ExercisesSeeder from "./seeders/ExercisesSeeder.js"
+import SetsSeeder from "./seeders/SetsSeeder.js"
 
 class Seeder {
   static async seed() {
     console.log("Seeding users...")
-    await userSeeder.seed()
+    await UserSeeder.seed()
 
     console.log("seeding workouts")
-    await workoutsSeeder.seed()
+    await WorkoutsSeeder.seed()
 
     console.log("Seeding exercises")
-    await exercisesSeeder.seed()
+    await ExercisesSeeder.seed()
 
     console.log("Seeding sets")
-    await setsSeeder.seed()
+    await SetsSeeder.seed()
 
     console.log("Done!")
     await connection.destroy()
