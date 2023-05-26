@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom"
 import ErrorList from './ErrorList.js'
 import translateServerErrors from '../../services/translateServerErrors.js';
 import _ from 'lodash'
+import MapComponent from '../maps/MapComponent.js';
 
 const WorkoutForm = (props) => {
     const [errors, setErrors] = useState({})
@@ -12,7 +13,8 @@ const WorkoutForm = (props) => {
         subcategory: "",
         notes: "",
         effortLevel: "",
-        workoutDate: ""
+        workoutDate: "",
+        locationId: ""
     })
     const [shouldRedirect, setShouldRedirect] = useState(false)
 
@@ -46,6 +48,7 @@ const WorkoutForm = (props) => {
     };
 
     const handleInputChange = (event) => {
+        event.preventDefault()
         setWorkoutRecord({
         ...workoutRecord,
         [event.currentTarget.name]: event.currentTarget.value,
@@ -53,9 +56,9 @@ const WorkoutForm = (props) => {
     };
 
     const handleSubmit = (event) => {
-    event.preventDefault();
-    postWorkout(workoutRecord);
-    clearForm();
+        event.preventDefault()
+        postWorkout(workoutRecord);
+        clearForm();
     };
 
     const clearForm = () => {
@@ -65,7 +68,8 @@ const WorkoutForm = (props) => {
         subcategory: "",
         notes: "",
         effortLevel: "",
-        workoutDate: ""
+        workoutDate: "",
+        locationId: ""
     });
     };
 
@@ -166,8 +170,12 @@ const WorkoutForm = (props) => {
                 />
             </label>
 
+            <label htmlFor="location">
+                <MapComponent workoutRecord={workoutRecord} setWorkoutRecord={setWorkoutRecord} />
+            </label>
+
             <div className="button-group">
-                <input className="button" type="submit" value="Submit" />
+                <input className="button" type="submit" value="Add Workout" />
             </div>
             </form>
         </div>

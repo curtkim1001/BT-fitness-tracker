@@ -26,7 +26,7 @@ class Workout extends Model {
     }
 
     static get relationMappings() {
-        const { User, Set, Exercise } = require("./index.js")
+        const { User, Set, Exercise, Location } = require("./index.js")
         return {
             user: {
                 relation: Model.BelongsToOneRelation,
@@ -54,6 +54,14 @@ class Workout extends Model {
                         to: "sets.exerciseId"
                     },
                     to: "exercises.id"
+                }
+            },
+            location: {
+                relation: Model.BelongsToOneRelation,
+                modelClass: Location,
+                join: {
+                    from: "workouts.locationId",
+                    to: "locations.id"
                 }
             }
         }

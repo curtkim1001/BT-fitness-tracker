@@ -49,10 +49,9 @@ const Dashboard = (props) => {
     }, [selectedView, selectedWeek, selectedMonth])
 
     return (
-        <div>
-            <h1>Dashboard</h1>
+        <div className="dashboard">
+            <h1>Progress Dashboard</h1>
             <Calendar className="react-calendar" />
-            <hr></hr>
             <WorkoutDataViewSelector 
             selectedView={selectedView}
             setSelectedView={setSelectedView}
@@ -61,8 +60,10 @@ const Dashboard = (props) => {
             selectedMonth={selectedMonth}
             setSelectedMonth={setSelectedMonth}
              />
-            <div className="category-piechart">
-                <Chart 
+            <div className="chart-container category-piechart">
+                {pieChartData.length > 1 ? (
+                    <Chart 
+                    className="chart"
                     chartType="PieChart"
                     data={pieChartData}
                     options={{
@@ -71,14 +72,18 @@ const Dashboard = (props) => {
                     }}
                     graph_id="PieChart"
                     loader={<div>Loading Chart</div>}
-                    width="80%"
+                    width="100%"
                     height="400px"
                 />
+                ):(
+                    <div>No exercise category data available.</div>
+                )}
             </div>
 
-            <div className="calories-linechart">
+            <div className="chart-container calories-linechart">
                 {caloriesLineChartData.length > 1 ? (
                     <Chart
+                    className="chart"
                     chartType="LineChart"
                     data={caloriesLineChartData}
                     options={{
@@ -92,7 +97,7 @@ const Dashboard = (props) => {
                     }}
                     graph_id="CaloriesLineChart"
                     loader={<div>Loading Chart</div>}
-                    width="80%"
+                    width="100%"
                     height="400px"
                 />
                 ) : (
@@ -100,9 +105,10 @@ const Dashboard = (props) => {
                 )}
             </div>
 
-            <div className="distance-linechart">
+            <div className="chart-container distance-linechart">
                 {distanceLineChartData.length > 1 ? (
                     <Chart
+                    className="chart"
                     chartType="LineChart"
                     data={distanceLineChartData}
                     options={{
@@ -116,7 +122,7 @@ const Dashboard = (props) => {
                     }}
                     graph_id="DistanceLineChart"
                     loader={<div>Loading Chart</div>}
-                    width="80%"
+                    width="100%"
                     height="400px"
                 />
                 ) : (
@@ -124,9 +130,10 @@ const Dashboard = (props) => {
                 )}
             </div>
 
-            <div className="duration-linechart">
+            <div className="chart-container duration-linechart">
                 {durationLineChartData.length > 1 ? (
                     <Chart
+                    className="chart"
                     chartType="LineChart"
                     data={durationLineChartData}
                     options={{
@@ -140,7 +147,7 @@ const Dashboard = (props) => {
                     }}
                     graph_id="DurationLineChart"
                     loader={<div>Loading Chart</div>}
-                    width="80%"
+                    width="100%"
                     height="400px"
                 />
                 ) : (
