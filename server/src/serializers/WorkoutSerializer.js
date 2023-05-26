@@ -8,7 +8,7 @@ class WorkoutSerializer {
   }
 
   static async getSummary(workouts) {
-    const allowedAttributes = ["id", "userId", "name", "duration", "subcategory", "notes", "effortLevel", "createdAt", "workoutDate"];
+    const allowedAttributes = ["id", "userId", "name", "duration", "subcategory", "notes", "effortLevel", "createdAt", "workoutDate", "locationId"];
 
     const serializedWorkouts = Promise.all(workouts.map(async (workout)=> {
         const serializedSingleWorkout = {}
@@ -19,6 +19,10 @@ class WorkoutSerializer {
           serializedSingleWorkout[attribute] = workout[attribute];
         }
         serializedSingleWorkout.sets = await workout.$relatedQuery("sets")
+        const locationData = await workout.$relatedQuery("location")
+        if (locationData) {
+          serializedSingleWorkout.location = locationData
+        }
         return serializedSingleWorkout
     }))
 

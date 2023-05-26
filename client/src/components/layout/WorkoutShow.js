@@ -38,6 +38,7 @@ const WorkoutShow = (props) => {
                         {workout.subcategory && <p>Category: {workout.subcategory}</p>}
                         {workout.effortLevel && <p>Level of Intensity: {workout.effortLevel}</p>}
                         {workout.notes && <p>Notes: {workout.notes}</p>}
+                        {workout.location && <p>Location: {workout.location.name} - {workout.location.address}</p>}
                     </div>
                 </div>
                 <div className="grid-x">

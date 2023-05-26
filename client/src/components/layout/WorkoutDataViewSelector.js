@@ -35,7 +35,6 @@ const WorkoutDataViewSelector = ({ selectedView, setSelectedView, selectedWeek, 
     return (
         <div>
             <div>
-                <label>Select View:</label>
                 <select value={selectedView} onChange={handleViewChange}>
                     <option value="">-- Select View --</option>
                     <option value="weekly">Weekly</option>
@@ -44,9 +43,6 @@ const WorkoutDataViewSelector = ({ selectedView, setSelectedView, selectedWeek, 
                     <option value="all-time">All Time</option>
                 </select>
             </div>
-            {selectedView === "all-time" && (
-                <h4>All-Time</h4>
-            )}
 
             {selectedView === "yearly" && (
                 <h4>{currentYear}:</h4>

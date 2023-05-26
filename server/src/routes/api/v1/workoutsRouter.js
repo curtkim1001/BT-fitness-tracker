@@ -1,7 +1,7 @@
 import express from "express"
 import objection from "objection"
 import cleanUserInput from "../../../services/cleanUserInput.js";
-import { Workout, User, Set, Exercise } from "../../../models/index.js"
+import { Workout, User, Set, Exercise, Location } from "../../../models/index.js"
 import WorkoutSerializer from "../../../serializers/WorkoutSerializer.js";
 import workoutExercisesRouter from "./workoutExercisesRouter.js";
 import PieChart from "../../../charts/pieChart.js";
@@ -101,7 +101,7 @@ workoutsRouter.get("/chart/:viewType/:viewDetails", async (req, res) => {
 workoutsRouter.post("/", async (req, res) => {
     const { body } = req
     const formInput = cleanUserInput(body);
-    const { name, duration, subcategory, notes, effortLevel, workoutDate } = formInput;
+    const { name, duration, subcategory, notes, effortLevel, workoutDate, locationId } = formInput;
     const userId = req.user.id;
     try {
         const newWorkout = await Workout.query().insertAndFetch({
@@ -111,8 +111,13 @@ workoutsRouter.post("/", async (req, res) => {
             subcategory,
             notes,
             effortLevel,
-            workoutDate
+            workoutDate,
+            locationId
         });
+        const location = await Location.query().findById(locationId);
+        if (location) {
+            await newWorkout.$relatedQuery('location').relate(location);
+        }
         return res.status(201).json({ workout: newWorkout });
     } catch (error) {
         if (error instanceof ValidationError) {

@@ -201,6 +201,7 @@ const WorkoutTile = ({ workout }) => {
               {currentWorkout.subcategory && <p>Category: {currentWorkout.subcategory}</p>}
               {currentWorkout.effortLevel && <p>Level of Intensity: {currentWorkout.effortLevel}</p>}
               {currentWorkout.notes && <p>Notes: {currentWorkout.notes}</p>}
+              {currentWorkout.location && <p>Location: {currentWorkout.location.name} - {currentWorkout.location.address}</p>}
               <div>
                 <button className="button delete-button" onClick={deleteWorkoutHandler}>Delete Workout</button>
                 <button className="button edit-button" onClick={editWorkoutHandler}>Edit Workout</button>

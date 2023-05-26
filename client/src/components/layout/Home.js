@@ -5,7 +5,7 @@ import friends from "../../../public/images/friends.jpg"
 const Home = (props) => {
     return (
         <div className="homepage">
-            <h1>Welcome to Fitness Tracker</h1>
+            <h1>Welcome to FitTrackr</h1>
             <div className="callout home-welcome-box rounded-corner">
                 <p>
                 Take control of your fitness journey with our powerful tracking tools. Log your workouts, monitor your progress, and achieve your goals. From cardio to strength training, we've got everything you need to stay motivated and stay on track.
