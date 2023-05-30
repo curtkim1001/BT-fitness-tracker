@@ -4,7 +4,7 @@ import cleanUserInput from "../../../services/cleanUserInput.js";
 import { Workout, User, Set, Exercise, Location } from "../../../models/index.js"
 import WorkoutSerializer from "../../../serializers/WorkoutSerializer.js";
 import workoutExercisesRouter from "./workoutExercisesRouter.js";
-import PieChart from "../../../charts/pieChart.js";
+import PieChart from "../../../charts/PieChart.js";
 import LineChart from "../../../charts/LineChart.js";
 const { ValidationError } = objection;
 
