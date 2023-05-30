@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import { connection } from "../boot.js"
-import UserSeeder from "./seeders/userSeeder"
+import UserSeeder from "./seeders/UserSeeder.js"
 import WorkoutsSeeder from "./seeders/WorkoutsSeeder.js"
-import ExercisesSeeder from "./seeders/exercisesSeeder.js"
+import ExercisesSeeder from "./seeders/ExercisesSeeder.js"
 import SetsSeeder from "./seeders/SetsSeeder.js"
 
 class Seeder {
