@@ -1,6 +1,6 @@
 import { Workout } from "../../models/index.js";
 
-class workoutsSeeder {
+class WorkoutsSeeder {
   static async seed() {
     const workoutsData = [
         {
@@ -185,4 +185,4 @@ class workoutsSeeder {
   }
 }
 
-export default workoutsSeeder;
+export default WorkoutsSeeder;

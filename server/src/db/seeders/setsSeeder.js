@@ -375,6 +375,4 @@ class SetsSeeder {
     }
 }
 
-
-
 export default SetsSeeder
